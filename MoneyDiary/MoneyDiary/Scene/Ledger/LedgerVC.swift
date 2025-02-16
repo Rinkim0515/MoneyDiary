@@ -17,6 +17,7 @@ class LedgerVC: UIViewController {
     private let viewModel: LedgerVM
     private let mainView = LedgerView()
     private let disposeBag = DisposeBag()
+    var coordinator: Coordinator
     
     //MARK: - ViewLifeCylcle
     init(viewModel: LedgerVM) {
@@ -28,7 +29,7 @@ class LedgerVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     override func viewDidLoad() {
-        <#code#>
+        
     }
 
     

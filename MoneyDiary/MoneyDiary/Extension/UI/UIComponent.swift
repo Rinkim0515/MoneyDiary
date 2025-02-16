@@ -3,7 +3,7 @@
 //  MoneyDiary
 //
 //  Created by KimRin on 2/16/25.
-//
+// Call By Reference class -> class
 import UIKit
 
 
@@ -74,5 +74,23 @@ class UIComponent {
         return picker
     }
 
-    
+    static func buttonWithTitle(title: String, imageName: String) -> UIButton {
+        let button = UIButton()
+        let image = UIImage(systemName: imageName)
+
+        let configuration = UIButton.Configuration.plain()
+        button.configuration = configuration
+        button.configuration?.image = image
+        button.configuration?.imagePadding = 5
+        button.configuration?.imagePlacement = .top
+        button.configuration?.baseForegroundColor = .black
+        button.configuration?.title = title
+        button.configuration?.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { attr in
+            var newAttr = attr
+            newAttr.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+            return newAttr
+        }
+        
+        return button
+    }
 }

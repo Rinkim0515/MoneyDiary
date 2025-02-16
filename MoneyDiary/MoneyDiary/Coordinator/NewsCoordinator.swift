@@ -10,11 +10,16 @@ import UIKit
 final class NewsCoordinator: Coordinator {
     var navigationController: UINavigationController
     
-    func start() {
-        
+
+    
+    init() {
+        self.navigationController = UINavigationController()
     }
     
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    func start() {
+        let newsVM = NewsVM()
+        let newsVC = NewsVC(viewModel: newsVM)
+        newsVC.coordinator = self
+        navigationController.setViewControllers([newsVC], animated: false)
     }
 }

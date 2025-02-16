@@ -17,9 +17,9 @@ final class AppCoordinator: Coordinator {
     var navigationController: UINavigationController
     var tabBarCoordinator: TabBarCoordinator?
     
-    init(window: UIWindow) {
+    init(window: UIWindow, navigationController: UINavigationController ) {
         self.window = window
-        self.navigationController = UINavigationController()
+        self.navigationController = navigationController
     }
     
     func start() {

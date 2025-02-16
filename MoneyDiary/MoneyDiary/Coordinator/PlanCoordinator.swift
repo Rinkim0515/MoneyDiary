@@ -8,14 +8,16 @@
 import UIKit
 
 final class PlanCoordinator: Coordinator {
-    
     var navigationController: UINavigationController
     
-    func start() {
-        
+    init() {
+        self.navigationController = UINavigationController()
     }
     
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    func start() {
+        let planVM = PlanVM()
+        let planVC = PlanVC(viewModel: planVM)
+        planVC.coordinator = self
+        navigationController.setViewControllers([planVC], animated: false)
     }
 }

@@ -10,11 +10,16 @@ import UIKit
 final class MyPageCoordinator: Coordinator {
     var navigationController: UINavigationController
     
-    func start() {
-        
+
+    
+    init() {
+        self.navigationController = UINavigationController()
     }
     
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    func start() {
+        let myPageVM = MyPageVM()
+        let myPageVC = MyPageVC(viewModel: myPageVM)
+        myPageVC.coordinator = self
+        navigationController.setViewControllers([myPageVC], animated: false)
     }
 }

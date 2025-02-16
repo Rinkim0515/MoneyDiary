@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol Coordinator: AnyObject {
+    var navigationController: UINavigationController { get set }
+    func start()
+}
+
 final class AppCoordinator: Coordinator {
     var window: UIWindow
     var navigationController: UINavigationController

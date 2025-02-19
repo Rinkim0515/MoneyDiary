@@ -15,7 +15,7 @@ final class NewsVC: UIViewController {
     private let viewModel: NewsVM
     private let mainView = UIView()
     private let disposeBag = DisposeBag()
-    var coordinator: Coordinator
+    var coordinator: Coordinator?
     
     init(viewModel: NewsVM) {
         self.viewModel = viewModel

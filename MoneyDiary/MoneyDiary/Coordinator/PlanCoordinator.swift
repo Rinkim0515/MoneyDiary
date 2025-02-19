@@ -8,16 +8,15 @@
 import UIKit
 
 final class PlanCoordinator: Coordinator {
-    var navigationController: UINavigationController
+    var navigationController: UINavigationController = UINavigationController()
     
-    init() {
-        self.navigationController = UINavigationController()
-    }
+
     
     func start() {
         let planVM = PlanVM()
         let planVC = PlanVC(viewModel: planVM)
         planVC.coordinator = self
+        planVC.tabBarItem = UITabBarItem(title: Tab.plan.title, image: Tab.plan.icon, tag: 1)
         navigationController.setViewControllers([planVC], animated: false)
     }
 }

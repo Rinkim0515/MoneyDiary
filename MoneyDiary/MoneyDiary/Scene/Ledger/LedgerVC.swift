@@ -17,12 +17,13 @@ class LedgerVC: UIViewController {
     private let viewModel: LedgerVM
     private let mainView = LedgerView()
     private let disposeBag = DisposeBag()
-    var coordinator: Coordinator
+    var coordinator: Coordinator?
     
     //MARK: - ViewLifeCylcle
     init(viewModel: LedgerVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {

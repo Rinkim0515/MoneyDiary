@@ -18,7 +18,7 @@ class PlanVC: UIViewController {
     private let viewModel: PlanVM
     private let mainView = UIView()
     private let disposeBag = DisposeBag()
-    var coordinator: Coordinator
+    var coordinator: Coordinator?
     
     init(viewModel: PlanVM) {
         self.viewModel = viewModel
@@ -27,5 +27,10 @@ class PlanVC: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    private func bindViewModel() {
+        
     }
 }

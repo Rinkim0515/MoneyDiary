@@ -6,37 +6,18 @@
 //
 
 import Foundation
+
+
 import RxSwift
 import RxCocoa
 
-enum Tab {
-    case ledger
-    case plan
-    case news
-    case myPage
-}
 
-enum TabBarIntent {
-    case selectTab(Tab)
-}
-
-enum TabBarEvent {
-    case navigate(Tab)
-}
-
-
-struct TabBarState {
-    let isLoaded: Bool
-    let selectedTab: Tab
-    
-    static let initial = TabBarState(isLoaded: false, selectedTab: .ledger)
-}
 
 final class TabBarVM {
     private let disposeBag = DisposeBag()
     
     let intentRelay = PublishRelay<TabBarIntent>()
-    private let eventRelay = PublishRelay<TabBarEvent>()
+    private let eventRelay = PublishRelay<TabBarEvent>() //coordinator에서 구독할 예정
     private let stateRelay = BehaviorRelay<TabBarState>(value: .initial)
     
     var state: Driver<TabBarState> { stateRelay.asDriver() }
@@ -53,7 +34,7 @@ final class TabBarVM {
                 guard let self = self else { return }
                 switch intent {
                 case .selectTab(let tab):
-                    let newState = TabBarState(isLoaded: true, selectedTab: tab)
+                    let newState = TabBarState(selectedTab: tab)
                     self.stateRelay.accept(newState)
                     self.eventRelay.accept(.navigate(tab))
                 }

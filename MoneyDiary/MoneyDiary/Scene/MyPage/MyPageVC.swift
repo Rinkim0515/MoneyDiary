@@ -18,10 +18,11 @@ final class MyPageVC: UIViewController {
     private let viewModel: MyPageVM
     private let mainView = UIView()
     private let disposeBag = DisposeBag()
-    var coordinator: Coordinator
+    var coordinator: Coordinator?
     
     init(viewModel: MyPageVM) {
         self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {

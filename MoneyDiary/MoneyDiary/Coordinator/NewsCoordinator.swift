@@ -8,9 +8,12 @@
 import UIKit
 
 final class NewsCoordinator: Coordinator {
-    var navigationController: UINavigationController = UINavigationController()
+    var navigationController: UINavigationController
     
 
+    init(navigationController: UINavigationController) {
+        self.navigationController = navigationController
+    }
     
 
     

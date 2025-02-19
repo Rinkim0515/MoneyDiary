@@ -10,6 +10,10 @@ import UIKit
 final class LedgerCoordinator: Coordinator {
     var navigationController: UINavigationController = UINavigationController()
     
+//    init(navigationController: UINavigationController) {
+//        self.navigationController = navigationController
+//    }
+    
     func start() {
         let ledgerVM = LedgerVM()
         let ledgerVC = LedgerVC(viewModel: ledgerVM)

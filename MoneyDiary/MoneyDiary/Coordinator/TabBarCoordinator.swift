@@ -28,7 +28,7 @@ final class TabBarCoordinator: Coordinator {
         
         self.ledgerCoordinator = LedgerCoordinator()
         self.planCoordinator = PlanCoordinator()
-        self.newsCoordinator = NewsCoordinator()
+        self.newsCoordinator = NewsCoordinator(navigationController: UINavigationController())
         self.myPageCoordinator = MyPageCoordinator()
 
         self.tabBarVC.coordinator = self

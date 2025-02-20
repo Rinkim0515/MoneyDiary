@@ -27,6 +27,9 @@ final class TabBarVM {
     init() {
         bindIntent()
     }
+    deinit {
+        print("소멸")
+    }
     
     private func bindIntent() {
         intentRelay
@@ -36,6 +39,7 @@ final class TabBarVM {
                 case .selectTab(let tab):
                     let newState = TabBarState(selectedTab: tab)
                     self.stateRelay.accept(newState)
+                    print(newState)
                     self.eventRelay.accept(.navigate(tab))
                 }
             })

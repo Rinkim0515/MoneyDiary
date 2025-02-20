@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 enum NewsIntent{
-    case tabCell(String)
+    case tapCell(String)
     case refreshNews
 }
 enum NewsEvent {
@@ -19,10 +19,10 @@ enum NewsEvent {
 }
 
 struct NewsState {
-    let loaded: Bool
-    let newsItem: [NewsArticle]
+    let isLoaded: Bool
+    let newsItems: [NewsArticle]
     
-    static let initial = NewsState(loaded: false, newsItem: [])
+    static let initial = NewsState(isLoaded: false, newsItems: [])
 }
 
 final class NewsVM {
@@ -45,7 +45,7 @@ final class NewsVM {
             .subscribe(onNext: { [ weak self] intent in
                 guard let self = self else { return }
                 switch intent {
-                case .tabCell(let urlString):
+                case .tapCell(let urlString):
                     self.eventRelay.accept(.navigateToDetail(urlString))
                 case .refreshNews:
                     fetchNews(isRefreshing: true)
@@ -56,14 +56,14 @@ final class NewsVM {
     
     private func fetchNews(isRefreshing: Bool = false) {
         if !isRefreshing {
-            stateRelay.accept(NewsState(loaded: false, newsItem: [])) // 초기화
+            stateRelay.accept(NewsState(isLoaded: false, newsItems: [])) // 초기화
         }
         
         newsService.fetchNews(query: "경제")
             .subscribe(onNext: { [weak self] newsArticles in
                 guard let self = self else { return }
                 
-                let newState = NewsState(loaded: true, newsItem: newsArticles)
+                let newState = NewsState(isLoaded: true, newsItems: newsArticles)
                 self.stateRelay.accept(newState)
                 
                 

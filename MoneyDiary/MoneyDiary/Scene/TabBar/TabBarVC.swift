@@ -15,11 +15,13 @@ final class TabBarVC: UITabBarController { // 커스텀 탭바를 적용하기�
     private let viewModel: TabBarVM
     private let disposeBag = DisposeBag()
     weak var coordinator: TabBarCoordinator?
+    private var titleString = " "
     
     //MARK: - View LifeCycle
     init(viewModel: TabBarVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        
         
     }
     
@@ -34,7 +36,13 @@ final class TabBarVC: UITabBarController { // 커스텀 탭바를 적용하기�
     }
     
     private func setupUI() {
-        setValue(CustomTabBar(), forKey: "tabBar")
+        
+        UITabBar.clearShadow()
+        tabBar.layer.applyShadow(color: .gray, alpha: 0.3, x: 0, y: 0, blur: 12)
+        tabBar.tintColor = .systemRed
+        
+
+    
     }
     
 
@@ -48,6 +56,8 @@ extension TabBarVC {
             .drive(onNext: { [weak self] state in
                 
                 self?.selectedIndex = state.selectedTab.rawValue // 현재 탭의 rawValue
+                self?.title = state.selectedTab.title
+                
             })
             .disposed(by: disposeBag)
         
@@ -56,31 +66,47 @@ extension TabBarVC {
                 switch event {
                 case .navigate(let tab):
                     self?.coordinator?.navigateTo(tab: tab)
+                    
                 }
+                
             })
             .disposed(by: disposeBag)
+        
+            
     }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        guard let index = tabBar.items?.firstIndex(of: item),
+              let tab = Tab(rawValue: index) else { return }
+        
+        viewModel.intentRelay.accept(.selectTab(tab))
+    }
+
 }
 
 
-final class CustomTabBar: UITabBar {
 
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let tabBarHeight = UIHelper.dynamicHeight(baseRatio: 0.1, min: 60, max: 100)
-        return CGSize(width: size.width, height: tabBarHeight)
+extension UITabBar {
+    static func clearShadow() {
+        UITabBar.appearance().shadowImage = UIImage()
+        UITabBar.appearance().backgroundImage = UIImage()
+        UITabBar.appearance().backgroundColor = UIColor.white
     }
-    
-    override init(frame: CGRect) {
-        super.init(frame: .zero)
-        self.tintColor = .systemRed
-        self.backgroundColor = .white
-        layer.cornerRadius = 10
-        layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        layer.shadowOpacity = 0.2
-        layer.shadowRadius = 5
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+
+}
+
+extension CALayer {
+    // Sketch 스타일의 그림자를 생성하는 유틸리티 함수
+    func applyShadow(
+        color: UIColor = .black,
+        alpha: Float = 0.5,
+        x: CGFloat = 0,
+        y: CGFloat = 2,
+        blur: CGFloat = 4
+    ) {
+        shadowColor = color.cgColor
+        shadowOpacity = alpha
+        shadowOffset = CGSize(width: x, height: y)
+        shadowRadius = blur / 2.0
     }
 }

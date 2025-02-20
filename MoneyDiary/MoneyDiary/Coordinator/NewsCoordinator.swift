@@ -13,6 +13,8 @@ final class NewsCoordinator: Coordinator {
 
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.navigationController.navigationBar.isHidden = true
+        self.navigationController.navigationBar.barTintColor = .white
     }
     
 
@@ -22,6 +24,11 @@ final class NewsCoordinator: Coordinator {
         let newsVC = NewsVC(viewModel: newsVM)
         newsVC.coordinator = self
         newsVC.tabBarItem = UITabBarItem(title: Tab.news.title, image: Tab.news.icon, tag: 2)
+        
         navigationController.setViewControllers([newsVC], animated: false)
+    }
+    
+    func naviagteToDetail(_ url: String) {
+        
     }
 }

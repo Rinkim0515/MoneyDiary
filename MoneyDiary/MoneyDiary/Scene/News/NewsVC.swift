@@ -23,12 +23,13 @@ final class NewsVC: UITableViewController {
     init(viewModel: NewsVM) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        setupUI()
-        bindViewModel()
+
     }
     
     override func viewDidLoad() {
-        
+        setupUI()
+        bindViewModel()
+        setupInfiniteScroll()
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -36,7 +37,6 @@ final class NewsVC: UITableViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
-        
         tableView.register(NewsCell.self, forCellReuseIdentifier: NewsCell.id)
         tableView.refreshControl = refreshControlView
         
@@ -85,6 +85,23 @@ final class NewsVC: UITableViewController {
             .drive(refreshControlView.rx.isRefreshing)
             .disposed(by: disposeBag)
     }
+    
+    private func setupInfiniteScroll() {
+        tableView.rx.didScroll
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                let offsetY = tableView.contentOffset.y
+                let contentHeight = tableView.contentSize.height
+                let height = tableView.frame.size.height
+                
+                if offsetY > contentHeight - height - 100 { // 스크롤 끝에서 100px 전
+                    self.viewModel.intentRelay.accept(.loadMore)
+                }
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    
     
     private func showErrorAlert(message: String) {
         let alert = UIAlertController(title: "에러", message: message, preferredStyle: .alert)
